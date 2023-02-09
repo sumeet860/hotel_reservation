@@ -12,15 +12,15 @@ where booking_status = 'Canceled';
 select count(*) from hotel_reservations
 where booking_status = 'Not_Canceled';
 
--- There are no repeated guest
+-- There are only 930 repeated guest
 select repeated_guest, count(*) from hotel_reservations
 group by repeated_guest;
 
--- No one needed the parking space
+-- Only 1124 needed the parking space
 select required_car_parking_space, count(*) from hotel_reservations
 group by required_car_parking_space;
 
--- Max people have made no special requests was made
+-- Max people have made no special requests
 select No_of_special_requests, count(*) from hotel_reservations
 group by No_of_special_requests;
 
@@ -75,3 +75,42 @@ where booking_status = 'Not_Canceled' and arrival_year=2018) as Not_Canceled_18,
 (select count(booking_status) from hotel_reservations 
 where booking_status = 'Canceled' and arrival_year=2018) as Canceled_18)
 select total_count_17, Not_Canceled_17, Canceled_17, total_count_18, Not_Canceled_18, Canceled_18 from booking;
+
+select no_of_weekend_nights, count(*) from hotel_reservations
+group by no_of_weekend_nights;
+
+select no_of_week_nights, count(*) from hotel_reservations
+group by no_of_week_nights;
+
+-- In month of October the booking is high compared to other months.
+-- In month of January the booking is very low.
+-- It means that the price of booking in month of October is low compared to January.
+select arrival_month, count(arrival_month) as count_month from hotel_reservations
+group by arrival_month
+order by count_month desc;
+
+-- On 18th of November the booking was more in the year 2017
+SELECT arrival_month, arrival_date, COUNT(arrival_date) as count
+FROM hotel_reservations
+where arrival_year = 2017
+GROUP BY arrival_date
+ORDER BY count DESC;
+
+-- On 13th of September the booking was more in the year 2018
+SELECT arrival_month, arrival_date, COUNT(arrival_date) as count
+FROM hotel_reservations
+where arrival_year = 2018
+GROUP BY arrival_date
+ORDER BY count DESC;
+
+-- In 2017 only for six months booking was done from July - December
+-- The price was lowest in month of November which was 37.33/ room.
+select arrival_month, avg_price_per_room from hotel_reservations
+where arrival_year = 2017
+group by arrival_month
+order by arrival_month asc;
+
+select arrival_month, avg_price_per_room from hotel_reservations
+where arrival_year = 2018
+group by arrival_month
+order by arrival_month asc;
